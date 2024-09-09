@@ -13,9 +13,21 @@ const registerUser = async (email, username, password, createAdmin) => {
 
         const user = new User({ email, username, password: hashedPassword, isAdmin: createAdmin });
         await user.save();
-        logger.info(`User registered successfully`);
         return user;
 };
 
+const verifyUser = async (username, password) => {
+        const user = await User.findOne({ username });
+        if (!user) {
+            logger.debug("User not found");
+            return null;
+        }
+        const validPassword = await bcrypt.compare(password, user.password);
+        if (!validPassword) {
+            logger.debug("Invalid password");
+            return null;
+        }
+        return user;
+};
 
-module.exports = { registerUser };
+module.exports = { registerUser, verifyUser };

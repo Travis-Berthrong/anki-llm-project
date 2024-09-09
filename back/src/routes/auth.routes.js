@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 
 const statusCodes = require('../constants/statusCodes');
-const { registerUser } = require('../controllers/auth.controllers');
+const { registerUser, verifyUser } = require('../controllers/auth.controllers');
 const logger = require('../middleware/logger');
 
 const validatePassword = (password) => {
@@ -34,6 +34,27 @@ router.post('/register', async (req, res) => {
     } catch (error) {
         logger.error(error.message);
         return res.status(statusCodes.internalServerError).json({ message: 'Error registering user' });
+    }
+});
+
+router.post('/login', async (req, res) => {
+    const { username, password } = req.body;
+    if (!username || !password) {
+        return res.status(statusCodes.badRequest).json({ message: 'Missing required fields' });
+    }
+    try {
+        const user = await verifyUser(username, password);
+        if (!user) {
+            return res.status(statusCodes.internalServerError).json({ message: 'Invalid username or password' });
+        }
+        req.session.loggedIn = true;
+        req.session.userId = user._id;
+        req.session.username = user.username;
+        req.session.isAdmin = user.isAdmin;
+        return res.status(statusCodes.success).json({ message: 'Logged in' });
+    } catch (error) {
+        logger.error(error.message);
+        return res.status(statusCodes.internalServerError).json({ message: 'Error logging in' });
     }
 });
 
