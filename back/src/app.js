@@ -12,6 +12,8 @@ const logger = require('./middleware/logger');
 const notFound = require('./middleware/notFound');
 const sanitizeReqBody = require('./middleware/sanitizeReqBody');
 
+const authRoutes = require('./routes/auth.routes');
+
 dotenv.config();
 const app = express();
 
@@ -60,6 +62,7 @@ try {
     app.use(sanitizeReqBody);
 
     // Routes
+    app.use('/auth', authRoutes);
     app.use(notFound);
 
     logger.info('Middleware registered');
