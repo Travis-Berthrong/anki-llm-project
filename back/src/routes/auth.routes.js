@@ -58,4 +58,13 @@ router.post('/login', async (req, res) => {
     }
 });
 
+router.post('/logout', (req, res) => {
+    req.session.destroy((err) => {
+        if (err) {
+            return res.status(statusCodes.internalServerError).json({ message: 'Error logging out' });
+        }
+        return res.status(statusCodes.success).json({ message: 'Logged out' });
+    });
+});
+
 module.exports = router;
