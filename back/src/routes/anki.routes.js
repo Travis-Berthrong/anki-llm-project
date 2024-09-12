@@ -30,4 +30,37 @@ router.post('/decks', async (req, res) => {
     }
 });
 
+router.post('/cards', async (req, res) => {
+    const { deckName, card } = req.body;
+    if (!deckName || !card) {
+        return res.status(statusCodes.badRequest).json({ message: 'Missing required fields' });
+    }
+    if (typeof card !== 'object') {
+        return res.status(statusCodes.badRequest).json({ message: 'Invalid card format' });
+    }
+    const params = {
+        "note": {
+            "deckName": deckName,
+            "modelName": "LLM Model",
+            "fields": card,
+            "options": {
+                "allowDuplicate": false,
+                "duplicateScope": "deck",
+                "duplicateScopeOptions": {
+                    "deckName": deckName,
+                    "checkChildren": false,
+                    "checkAllModels": false
+                }
+            }
+        }
+    }
+    try {
+        await invokeAnkiApi('addNote', 6, params);
+        return res.status(statusCodes.success).json({ message: 'Card added' });
+    } catch (error) {
+        logger.error(error.message);
+        return res.status(statusCodes.internalServerError).json({ message: 'Error adding card' });
+    }
+});
+
 module.exports = router;
