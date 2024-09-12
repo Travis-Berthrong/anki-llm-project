@@ -13,6 +13,7 @@ const notFound = require('./middleware/notFound');
 const sanitizeReqBody = require('./middleware/sanitizeReqBody');
 
 const authRoutes = require('./routes/auth.routes');
+const ankiRoutes = require('./routes/anki.routes');
 
 dotenv.config();
 const app = express();
@@ -63,6 +64,7 @@ try {
 
     // Routes
     app.use('/auth', authRoutes);
+    app.use('/anki', ankiRoutes);
     app.use(notFound);
 
     logger.info('Middleware registered');
