@@ -7,7 +7,7 @@ const dotenv = require('dotenv');
 const mongoose = require('mongoose');
 const rateLimit = require('express-rate-limit');
 
-
+const verifyAnkiModel = require('./boot/verifyAnkiModel');
 const logger = require('./middleware/logger');
 const notFound = require('./middleware/notFound');
 const sanitizeReqBody = require('./middleware/sanitizeReqBody');
@@ -67,8 +67,10 @@ try {
 
     logger.info('Middleware registered');
 
+    verifyAnkiModel();
+
 } catch (error) {
-    logger.error(`Error registering middleware: ${error}`);
+    logger.error(`Error occured on startup: ${error}`);
     process.exit(1);
 }
 
