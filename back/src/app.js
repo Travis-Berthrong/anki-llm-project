@@ -11,9 +11,12 @@ const verifyAnkiModel = require('./boot/verifyAnkiModel');
 const logger = require('./middleware/logger');
 const notFound = require('./middleware/notFound');
 const sanitizeReqBody = require('./middleware/sanitizeReqBody');
+const hasSession = require('./middleware/hasSession');
+const isAdmin = require('./middleware/isAdmin');
 
 const authRoutes = require('./routes/auth.routes');
 const ankiRoutes = require('./routes/anki.routes');
+const adminRoutes = require('./routes/admin.routes');
 
 dotenv.config();
 const app = express();
@@ -64,7 +67,10 @@ try {
 
     // Routes
     app.use('/auth', authRoutes);
+    app.use(hasSession);
     app.use('/anki', ankiRoutes);
+    app.use(isAdmin);
+    app.use('/admin', adminRoutes);
     app.use(notFound);
 
     logger.info('Middleware registered');
