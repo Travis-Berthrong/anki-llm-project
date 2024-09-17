@@ -1,0 +1,10 @@
+{
+    "modelName": "LLM Model",
+    "inOrderFields": ["Vocab", "Sentence", "VocabMeaning", "SentenceMeaning"],
+    "cardTemplates": [
+        {
+            "Front": "{{Vocab}}</br></br>{{Sentence}}",
+            "Back": "{{FrontSide}}<hr id=answer>{{VocabMeaning}}</br></br>{{SentenceMeaning}}"
+        }
+    ]
+}
