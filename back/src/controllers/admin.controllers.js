@@ -17,4 +17,19 @@ const editCardModel = async (frontTemplate, backTemplate) => {
     }
 }
 
-module.exports = { editCardModel };
+const editSystemPrompt = async (newPrompt) => {
+    try {
+        if (newPrompt.slice(0,11) !== '### System:') {
+            newPrompt = '### System:\n' + newPrompt;
+        }
+        logger.info(`Updating system prompt to: ${newPrompt}`);
+        await fs.promises.writeFile(`${appRoot}/src/config/systemPrompt.txt`, data=newPrompt);
+        logger.info('System prompt updated');
+        return true;
+    } catch (error) {
+        logger.error(error.message);
+        return false;
+    }
+}
+
+module.exports = { editCardModel, editSystemPrompt };
