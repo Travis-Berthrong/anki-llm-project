@@ -1,5 +1,5 @@
 const { createCompletion, loadModel } = require ("gpt4all");
-const logger = require('../middleware/logger');
+const logger = require('./middleware/logger');
 const fs = require('fs');
 const appRoot = require("app-root-path");
 
@@ -54,9 +54,11 @@ class LlmModel {
         }
     }
 
-    async createCompletion(prompt) {
+    async getCompletion(prompt) {
         try {
-            const completion = await createCompletion(this.model, prompt);
+            logger.info(`Prompt: ${prompt}`);
+            const completion = await createCompletion(this.chatSession, prompt);
+            logger.info(`Response: ${completion.choices[0].message.content}`);
             return completion;
         } catch (error) {
             logger.error(error.message);
