@@ -10,6 +10,7 @@ module.exports = (req, res, next) => {
     for (const [key, value] of Object.entries(req.body)) {
         // If the value is an object, iterate over each key-value pair in the object to sanitize it
         if (typeof value === 'object') {
+            logger.info(`Sanitizing object: ${key}`);
             for (const [nestedKey, nestedValue] of Object.entries(value)) {
                 let nestedSanitized = perfectExpressSanitizer.sanitize.prepareSanitize(nestedValue, sanitizer_options);
                 // If the sanitized value is different from the original value, log the flagged field and return a 400 status code
@@ -19,7 +20,10 @@ module.exports = (req, res, next) => {
                 }
                 req.body[key][nestedKey] = nestedSanitized;
             }
-        } else {
+        } else if (key === 'frontTemplate' || key === 'backTemplate') {
+            continue;
+        }
+        else {
             let sanitized = perfectExpressSanitizer.sanitize.prepareSanitize(value, sanitizer_options);
 
             if (value != sanitized) {
