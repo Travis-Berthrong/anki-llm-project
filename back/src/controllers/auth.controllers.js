@@ -16,8 +16,8 @@ const registerUser = async (email, username, password, createAdmin) => {
         return user;
 };
 
-const verifyUser = async (username, password) => {
-        const user = await User.findOne({ username });
+const verifyUser = async (email, password) => {
+        const user = await User.findOne({ email });
         if (!user) {
             logger.debug("User not found");
             return null;
