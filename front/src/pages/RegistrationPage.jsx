@@ -6,6 +6,7 @@ import { Label } from "@/components/ui/label"
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 import { useState } from "react"
 import { Link, useNavigate } from "react-router-dom"
+import  secureLocalStorage  from  "react-secure-storage"
 
 
 import axios_instance from "../../constants/axios"
@@ -25,7 +26,7 @@ export function RegistrationPage() {
       const response = await axios_instance.post(requests.register, { email, username, password });
       setAlert({title: `${response.data.email} registered successfully!`, description: 'You will be redirected shortly', variant: 'success'});
       const login_response = await axios_instance.post(requests.login, { username, password });
-        sessionStorage.setItem('user_role', login_response.data.isAdmin ? 'admin' : 'user');
+        secureLocalStorage.setItem('user_role', login_response.data.isAdmin ? 'admin' : 'user');
         navigate('/home');
       
     } catch (error) {

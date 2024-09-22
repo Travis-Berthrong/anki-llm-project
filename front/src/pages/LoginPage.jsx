@@ -6,6 +6,7 @@ import { Label } from "@/components/ui/label"
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 import { useState } from "react"
 import { Link } from "react-router-dom"
+import  secureLocalStorage  from  "react-secure-storage"
 
 
 import axios_instance from "../../constants/axios"
@@ -22,7 +23,7 @@ export function LoginPage() {
     try {
       const response = await axios_instance.post(requests.login, { email, password });
       console.log(response.data);
-      sessionStorage.setItem('user_role', response.data.isAdmin ? 'admin' : 'user');
+      secureLocalStorage.setItem('user_role', response.data.isAdmin ? 'admin' : 'user');
     } catch (error) {
       if (error?.response?.status === 400) {
         setAlert({title: 'Invalid email or password', description: 'Please try again.', variant: 'destructive'});
