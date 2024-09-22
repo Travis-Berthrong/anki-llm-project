@@ -45,7 +45,7 @@ router.post('/login', async (req, res) => {
     try {
         const user = await verifyUser(username, password);
         if (!user) {
-            return res.status(statusCodes.internalServerError).json({ message: 'Invalid username or password' });
+            return res.status(statusCodes.badRequest).json({ message: 'Invalid username or password' });
         }
         req.session.loggedIn = true;
         req.session.userId = user._id;
