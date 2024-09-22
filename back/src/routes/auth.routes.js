@@ -4,6 +4,7 @@ const router = express.Router();
 const statusCodes = require('../constants/statusCodes');
 const { registerUser, verifyUser } = require('../controllers/auth.controllers');
 const logger = require('../middleware/logger');
+const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 const validatePassword = (password) => {
     // Password must contain at least one digit, one lowercase letter, one uppercase letter, one special character, and be at least 8 characters long (Regex from Perplexity)
@@ -14,7 +15,6 @@ const validatePassword = (password) => {
 router.post('/register', async (req, res) => {
     const { email, username, password } = req.body;
     const createAdmin = (req.body.createAdmin === true && req.session.isAdmin === true); // Only admins can create other admins
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
     if (!email || !username || !password) {
         return res.status(statusCodes.badRequest).json({ message: 'Missing required fields' });
@@ -38,14 +38,14 @@ router.post('/register', async (req, res) => {
 });
 
 router.post('/login', async (req, res) => {
-    const { username, password } = req.body;
-    if (!username || !password) {
+    const { email, password } = req.body;
+    if (!email || !password) {
         return res.status(statusCodes.badRequest).json({ message: 'Missing required fields' });
     }
     try {
-        const user = await verifyUser(username, password);
+        const user = await verifyUser(email, password);
         if (!user) {
-            return res.status(statusCodes.badRequest).json({ message: 'Invalid username or password' });
+            return res.status(statusCodes.badRequest).json({ message: 'Invalid email or password' });
         }
         req.session.loggedIn = true;
         req.session.userId = user._id;
@@ -57,6 +57,7 @@ router.post('/login', async (req, res) => {
         return res.status(statusCodes.internalServerError).json({ message: 'Error logging in' });
     }
 });
+
 
 router.post('/logout', (req, res) => {
     req.session.destroy((err) => {

@@ -5,28 +5,35 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 import { useState } from "react"
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import  secureLocalStorage  from  "react-secure-storage"
 
 
 import axios_instance from "../../constants/axios"
 import { requests } from "../../constants/requests"
 
-export function LoginPage() {
+export function RegistrationPage() {
 
+  const navigate = useNavigate();
   const [email, setEmail] = useState('');
+  const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [alert, setAlert] = useState({title: '', description: '', variant: 'default'});
 
-  const handleLogin = async (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios_instance.post(requests.login, { email, password });
-      console.log(response.data);
-      secureLocalStorage.setItem('user_role', response.data.isAdmin ? 'admin' : 'user');
+      const response = await axios_instance.post(requests.register, { email, username, password });
+      setAlert({title: `${response.data.email} registered successfully!`, description: 'You will be redirected shortly', variant: 'success'});
+      const login_response = await axios_instance.post(requests.login, { username, password });
+        secureLocalStorage.setItem('user_role', login_response.data.isAdmin ? 'admin' : 'user');
+        navigate('/home');
+      
     } catch (error) {
-      if (error?.response?.status === 400) {
-        setAlert({title: 'Invalid email or password', description: 'Please try again.', variant: 'destructive'});
+        if (error?.response?.status === 400) {
+            setAlert({title: error.response.data.message, description: 'Please try again.', variant: 'destructive'});
+      } else if (error?.response?.status === 409) {
+        setAlert({title: 'User already exists', description: 'Please login or continue with a different email', variant: 'destructive'});
       } else {
         setAlert({title: 'An error occurred', description: 'Please try again later.', variant: 'destructive'});
       }
@@ -57,14 +64,18 @@ export function LoginPage() {
 
       <Card className="w-full max-w-md">
         <CardHeader>
-          <CardTitle className="text-2xl font-bold">Login</CardTitle>
-          <CardDescription>Enter your credentials to access your account.</CardDescription>
+          <CardTitle className="text-2xl font-bold">Sign Up</CardTitle>
+          <CardDescription>Please enter your account information</CardDescription>
         </CardHeader>
-        <form onSubmit={handleLogin}>
+        <form onSubmit={handleSubmit}>
           <CardContent className="space-y-4">
-            <div className="space-y-2">
+          <div className="space-y-2">
               <Label htmlFor="email">Email</Label>
               <Input id="email" required onChange={(e) => setEmail(e.target.value)} />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="username">Username</Label>
+              <Input id="username" required onChange={(e) => setUsername(e.target.value)} />
             </div>
             <div className="space-y-2">
               <Label htmlFor="password">Password</Label>
@@ -76,10 +87,10 @@ export function LoginPage() {
             className="w-full"
             type="submit"
             >
-              Sign In
+              Sign Up
             </Button>
-            <Link to="/register" className="block text-center mt-4 text-blue-600 hover:text-blue-800 w-full">
-              Don&apos;t have an account? Sign up here.
+            <Link to="/login" className="block text-center mt-4 text-blue-500 hover:text-blue-800 w-full">
+              Already have an account? Sign in here.
             </Link>
           </CardFooter>
         </form>
