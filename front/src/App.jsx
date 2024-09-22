@@ -1,4 +1,4 @@
-import { LoginPage } from "./pages/login-page";
+import { LoginPage } from "./pages/LoginPage";
 import { Routes, Route,} from 'react-router-dom';
 
 function App() {

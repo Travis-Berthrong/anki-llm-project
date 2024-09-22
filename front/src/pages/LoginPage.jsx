@@ -5,11 +5,11 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 import { useState } from "react"
+import { Link } from "react-router-dom"
 
 
 import axios_instance from "../../constants/axios"
 import { requests } from "../../constants/requests"
-import { close } from "../../public/close.svg"
 
 export function LoginPage() {
 
@@ -45,7 +45,7 @@ export function LoginPage() {
               className="absolute top-2 right-2 text-gray-500 hover:text-gray-700"
               aria-label="Close alert"
             >
-              <img src={close} alt="Close alert" />
+              <img src='/close.svg' alt="Close alert" width='20px' height='20px'/>
             </button>
             <AlertTitle>{alert.title}</AlertTitle>
             <AlertDescription>{alert.description}</AlertDescription>
@@ -69,13 +69,16 @@ export function LoginPage() {
               <Input id="password" type="password" required onChange={(e) => setPassword(e.target.value)}/>
             </div>
           </CardContent>
-          <CardFooter>
+          <CardFooter className="flex flex-col items-center justify-center space-y-4">
             <Button 
             className="w-full"
             type="submit"
             >
               Sign In
             </Button>
+            <Link to="/register" className="block text-center mt-4 text-blue-600 hover:text-blue-800 w-full">
+              Don&apos;t have an account? Sign up here.
+            </Link>
           </CardFooter>
         </form>
       </Card>
