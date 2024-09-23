@@ -24,7 +24,7 @@ export function LoginPage() {
     try {
       const response = await axios_instance.post(requests.login, { email, password }, { withCredentials: true });
       secureLocalStorage.setItem('user_role', response.data.isAdmin ? 'admin' : 'user');
-      navigate('/home');
+      navigate('/');
     } catch (error) {
       if (error?.response?.status === 400) {
         setAlert({title: 'Invalid email or password', description: 'Please try again.', variant: 'destructive'});

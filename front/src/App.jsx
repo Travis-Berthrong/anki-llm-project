@@ -11,7 +11,7 @@ function ProtectedRoute({ roles=['user', 'admin'], children }) {
     return <Navigate to="/login" />;
   }
   if (roles && !roles.includes(userRole)) {
-    return <Navigate to="/home" />;
+    return <Navigate to="/" />;
   }
   return children;
 }
@@ -21,7 +21,7 @@ function App() {
     <Routes>
       <Route path="/login" element={<LoginPage />} />
       <Route path="/register" element={<RegistrationPage />} />
-      <Route path="/home" element={<ProtectedRoute roles={['user', 'admin']}><HomePage></HomePage></ProtectedRoute>} />
+      <Route path="/" element={<ProtectedRoute roles={['user', 'admin']}><HomePage></HomePage></ProtectedRoute>} />
     </Routes>
   );
 }

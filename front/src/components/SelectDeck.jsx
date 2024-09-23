@@ -9,7 +9,7 @@ import { Button } from "@/components/ui/button";
 import { useState } from "react";
   
 
-export function SelectDeck({ decknames, submitHandler }) {
+export default function SelectDeck({ decknames, submitHandler }) {
     const [selectedDeck, setSelectedDeck] = useState(null);
 	return (
         <div className="flex items-center justify-center min-h-screen bg-gray-100 w-full px-4">
