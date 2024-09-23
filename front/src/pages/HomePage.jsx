@@ -3,6 +3,7 @@ import axios_instance from "../../constants/axios";
 import { requests } from "../../constants/requests";
 import SelectDeck from "@/components/SelectDeck";
 import BackendError from "@/components/BackendError";
+import Navbar from "@/components/Navbar";
 
 export function HomePage() {
 
@@ -32,12 +33,14 @@ export function HomePage() {
     }
 
     return (
+        <Navbar >
         <div className="flex items-center justify-center min-h-screen bg-gray-100 w-full px-4">
             {!loading && !requestError && <SelectDeck decknames={decknames} submitHandler={submitHandler} />}
             {loading && <p>Loading...</p>}
             {requestError && <BackendError onRetry={() => location.reload()} />}
             {selectedDeck && <h1>{selectedDeck}</h1>}
         </div>
+        </Navbar>
     )
 
 }

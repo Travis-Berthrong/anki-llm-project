@@ -23,6 +23,7 @@ export function LoginPage() {
     e.preventDefault();
     try {
       const response = await axios_instance.post(requests.login, { email, password }, { withCredentials: true });
+      console.log(response.data);
       secureLocalStorage.setItem('user_role', response.data.isAdmin ? 'admin' : 'user');
       navigate('/');
     } catch (error) {
