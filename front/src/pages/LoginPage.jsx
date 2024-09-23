@@ -5,7 +5,7 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 import { useState } from "react"
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import  secureLocalStorage  from  "react-secure-storage"
 
 
@@ -14,6 +14,7 @@ import { requests } from "../../constants/requests"
 
 export function LoginPage() {
 
+  const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [alert, setAlert] = useState({title: '', description: '', variant: 'default'});
@@ -21,9 +22,9 @@ export function LoginPage() {
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios_instance.post(requests.login, { email, password });
-      console.log(response.data);
+      const response = await axios_instance.post(requests.login, { email, password }, { withCredentials: true });
       secureLocalStorage.setItem('user_role', response.data.isAdmin ? 'admin' : 'user');
+      navigate('/home');
     } catch (error) {
       if (error?.response?.status === 400) {
         setAlert({title: 'Invalid email or password', description: 'Please try again.', variant: 'destructive'});
