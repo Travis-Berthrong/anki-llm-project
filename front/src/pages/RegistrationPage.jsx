@@ -25,9 +25,9 @@ export function RegistrationPage() {
     try {
       const response = await axios_instance.post(requests.register, { email, username, password });
       setAlert({title: `${response.data.email} registered successfully!`, description: 'You will be redirected shortly', variant: 'success'});
-      const login_response = await axios_instance.post(requests.login, { username, password });
+      const login_response = await axios_instance.post(requests.login, { email, password });
         secureLocalStorage.setItem('user_role', login_response.data.isAdmin ? 'admin' : 'user');
-        navigate('/home');
+        navigate('/');
       
     } catch (error) {
         if (error?.response?.status === 400) {

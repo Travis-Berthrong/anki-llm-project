@@ -40,7 +40,10 @@ mongoose.connect(MONGO_URI, {
 
 try {
     // Middleware
-    app.use(cors()); // Enable CORS
+    app.use(cors({ // Enable CORS
+        origin: 'http://localhost:5173',
+        credentials: true
+    })); 
     app.use(helmet.contentSecurityPolicy({ // Content Security Policy to prevent XSS attacks
         directives: {
             defaultSrc: ["'self'"],

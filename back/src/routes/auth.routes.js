@@ -4,6 +4,7 @@ const router = express.Router();
 const statusCodes = require('../constants/statusCodes');
 const { registerUser, verifyUser } = require('../controllers/auth.controllers');
 const logger = require('../middleware/logger');
+const isAdmin = require('../middleware/isAdmin');
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 const validatePassword = (password) => {
@@ -51,11 +52,18 @@ router.post('/login', async (req, res) => {
         req.session.userId = user._id;
         req.session.username = user.username;
         req.session.isAdmin = user.isAdmin;
-        return res.status(statusCodes.success).json({ message: 'Logged in' });
+        return res.status(statusCodes.success).json({ isAdmin: user.isAdmin });
     } catch (error) {
         logger.error(error.message);
         return res.status(statusCodes.internalServerError).json({ message: 'Error logging in' });
     }
+});
+
+router.get('/session', (req, res) => {
+    if (req.session.loggedIn) {
+        return res.status(statusCodes.success).json({ isAdmin: req.session.isAdmin });
+    }
+    return res.status(statusCodes.unauthorized).json({ message: 'Not logged in' });
 });
 
 
