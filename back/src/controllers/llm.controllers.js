@@ -1,5 +1,5 @@
 const logger = require('../middleware/logger');
-const modelInstance = require('../llmModel');
+const modelInstance = require('../LlmModel');
 
 const generateCard = async (prompt) => {
     try {
