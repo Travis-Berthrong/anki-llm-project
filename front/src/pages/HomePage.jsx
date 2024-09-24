@@ -14,7 +14,7 @@ export function HomePage() {
 
 
     useEffect(() => {
-        axios_instance.get(requests.decknames, { withCredentials: true })
+        axios_instance.get(requests.decknames)
             .then((response) => {
                 console.log(response.data);
                 setDecknames(response.data);

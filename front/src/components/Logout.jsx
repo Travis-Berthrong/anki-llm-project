@@ -9,7 +9,7 @@ export default function Logout() {
     
     const handleLogout = async () => {
         try {
-        await axios_instance.post(requests.logout, {}, { withCredentials: true });
+        await axios_instance.post(requests.logout, {});
         secureLocalStorage.clear();
         navigate('/login');
         } catch (error) {
