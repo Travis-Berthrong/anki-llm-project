@@ -17,6 +17,7 @@ const isAdmin = require('./middleware/isAdmin');
 const authRoutes = require('./routes/auth.routes');
 const ankiRoutes = require('./routes/anki.routes');
 const adminRoutes = require('./routes/admin.routes');
+const llmRoutes = require('./routes/llm.routes');
 
 dotenv.config();
 const app = express();
@@ -69,6 +70,7 @@ try {
     app.use('/auth', authRoutes);
     app.use(hasSession);
     app.use('/anki', ankiRoutes);
+    app.use('/llm', llmRoutes);
     app.use(isAdmin);
     app.use('/admin', adminRoutes);
     app.use(notFound);
