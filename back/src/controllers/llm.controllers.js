@@ -3,9 +3,9 @@ const modelInstance = require('../llmModel');
 
 const generateCard = async (prompt) => {
     try {
-        const completion = await modelInstance.getCompletion(prompt);
-        logger.info(`Response: ${completion.choices[0].message}`);
-        const cardJSON = JSON.parse(completion.choices[0].message.content);
+        const completionJSON = await modelInstance.getCompletion(prompt);
+        logger.info(`Response: ${completionJSON}`);
+        const cardJSON = JSON.parse(completionJSON);
         return cardJSON;
     } catch (error) {
         logger.error(error.message);

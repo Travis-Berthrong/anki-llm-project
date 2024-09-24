@@ -59,7 +59,14 @@ class LlmModel {
             logger.info(`Prompt: ${prompt}`);
             const completion = await createCompletion(this.chatSession, prompt);
             logger.info(`Response: ${completion.choices[0].message.content}`);
-            return completion;
+            // Extract JSON part from the response content
+            const jsonMatch = completion.choices[0].message.content.match(/{.*}/s);
+            if (jsonMatch) {
+                logger.info(`JSON: ${jsonMatch[0]}`);
+                return jsonMatch[0];
+            } else {
+                throw new Error("No valid JSON found in the response content");
+            }
         } catch (error) {
             logger.error(error.message);
             return null;
