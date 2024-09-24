@@ -17,7 +17,7 @@ export default function CardGenForm({ decknames, submitHandler }) {
     const [prompt, setPrompt] = useState('');
 
     return (
-        <div className="min-h-screen bg-gray-100 w-full px-4">
+        <div className="w-full px-4">
             <Card className="mx-auto mt-8 shadow-md bg-slate-100 rounded-lg p-4 w-full max-w-md">
                 <h1 className="text-xl font-semibold text-center">Add a card</h1>
                 <div className="flex flex-col space-y-4">

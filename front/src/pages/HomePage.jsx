@@ -3,12 +3,15 @@ import axios_instance from "../../constants/axios";
 import { requests } from "../../constants/requests";
 import CardGenForm from "@/components/CardGenForm";
 import BackendError from "@/components/BackendError";
+import Flashcard from "@/components/Flashcard";
 import Navbar from "@/components/Navbar";
 
 export function HomePage() {
 
     const [decknames, setDecknames] = useState([]);
-    const [loading, setLoading] = useState(true);
+    const [pageLoading, setPageLoading] = useState(true);
+    const [cardLoading, setCardLoading] = useState(false);
+    const [cardJson, setCardJson] = useState({});
     const [requestError, setRequestError] = useState(false);
 
 
@@ -17,26 +20,44 @@ export function HomePage() {
             .then((response) => {
                 console.log(response.data);
                 setDecknames(response.data);
-                setLoading(false);
+                setPageLoading(false);
             })
             .catch((error) => {
                 setRequestError(true);
-                setLoading(false);
+                setPageLoading(false);
                 console.log(error);
             });
     }, []);
 
-    const submitHandler = (deckname, level, prompt) => {
-        console.log(deckname, level, prompt);
+    const submitHandler = async (deckname, level, prompt) => {
+        try {
+            console.log(deckname, level, prompt);
+            setCardLoading(true);
+            const response = await axios_instance.post(requests.generateCard, { level, prompt });
+            const cardJson = response.data;
+            setCardJson(cardJson);
+            setCardLoading(false);
+        } catch (error) {
+            console.log(error);
+            setRequestError(true);
+            setCardLoading(false);
+        }
+
     }
 
     return (
-        <Navbar >
-        <div className="flex items-center justify-center min-h-screen bg-gray-100 w-full px-4">
-            {!loading && !requestError && <CardGenForm decknames={decknames} submitHandler={submitHandler} />}
-            {loading && <p>Loading...</p>}
-            {requestError && <BackendError onRetry={() => location.reload()} />}
-        </div>
+        <Navbar>
+            <div className="flex flex-col items-center justify-start w-full px-4">
+                {!pageLoading && !requestError && (
+                    <CardGenForm decknames={decknames} submitHandler={submitHandler} />
+                )}
+                {!cardLoading && cardJson?.Vocab && (
+                    <Flashcard cardJson={cardJson} />
+                )}
+                {pageLoading && <p>Loading...</p>}
+                {cardLoading && <p>Loading card...</p>}
+                {requestError && <BackendError onRetry={() => location.reload()} />}
+            </div>
         </Navbar>
     )
 
