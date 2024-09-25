@@ -19,7 +19,7 @@ export default function CardGenForm({ decknames, submitHandler }) {
     return (
         <div className="w-full px-4">
             <Card className="mx-auto mt-8 shadow-md bg-slate-100 rounded-lg p-4 w-full max-w-md">
-                <h1 className="text-xl font-semibold text-center">Add a card</h1>
+                <h1 className="text-xl font-semibold text-center pb-2">Add a card</h1>
                 <div className="flex flex-col space-y-4">
                     <div className="flex items-center space-x-4">
                         <Select onValueChange={(value) => setSelectedDeck(value)} className="flex-grow">

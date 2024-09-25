@@ -6,4 +6,5 @@ export const requests = {
     session: '/auth/session',
     decknames: '/anki/decks',
     generateCard: '/llm/generateCard',
+    saveCard: '/anki/cards',
 };

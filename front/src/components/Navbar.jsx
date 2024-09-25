@@ -1,5 +1,6 @@
 import { Home, FileSliders } from 'lucide-react';
 import { NavLink } from 'react-router-dom';
+import { Toaster } from "@/components/ui/toaster"
 import secureLocalStorage from 'react-secure-storage';
 import Logout from './Logout';
 
@@ -47,6 +48,7 @@ export default function Navbar({ children }) {
           <main className="grid flex-1 items-start p-4 px-6 py-0 gap-8">
             {children}
           </main>
+          <Toaster />
         </div>
       </div>
     );

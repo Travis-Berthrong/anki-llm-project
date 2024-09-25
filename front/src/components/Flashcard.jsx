@@ -1,7 +1,8 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
+import { Save, Trash2 } from 'lucide-react';
 
-export default function Flashcard({cardJson}) {
+export default function Flashcard({cardJson, saveHandler, discardHandler}) {
     return (
 <div className="w-full px-4 py-6 flex flex-col items-center">
             <Tabs defaultValue="front" className="w-full max-w-md">
@@ -17,6 +18,10 @@ export default function Flashcard({cardJson}) {
                         <CardContent>
                             <p>{cardJson.Sentence}</p>
                         </CardContent>
+                        <CardFooter className="flex items-center justify-between">
+                            <button onClick={saveHandler} className="rounded-lg"><Save/></button>
+                            <button onClick={discardHandler} className="rounded-lg"><Trash2/></button>
+                        </CardFooter>
                     </Card>
                 </TabsContent>
                 <TabsContent value="back">
@@ -27,6 +32,11 @@ export default function Flashcard({cardJson}) {
                         <CardContent>
                             <p>{cardJson.SentenceMeaning}</p>
                         </CardContent>
+                        <CardFooter className="flex items-center justify-between">
+                            <button onClick={saveHandler} className="rounded-lg"><Save/></button>
+                            <button onClick={discardHandler} className="rounded-lg"><Trash2/></button>
+                        </CardFooter>
+
                     </Card>
                 </TabsContent>
             </Tabs>
