@@ -1,6 +1,7 @@
 import { AlertTriangle } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
+import PropTypes from 'prop-types'
 
 export default function BackendError({ onRetry }) {
   return (
@@ -27,4 +28,8 @@ export default function BackendError({ onRetry }) {
       </CardFooter>
     </Card>
   )
+}
+
+BackendError.propTypes = {
+  onRetry: PropTypes.func,
 }

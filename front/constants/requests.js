@@ -5,4 +5,6 @@ export const requests = {
     register: '/auth/register',
     session: '/auth/session',
     decknames: '/anki/decks',
+    generateCard: '/llm/generateCard',
+    saveCard: '/anki/cards',
 };

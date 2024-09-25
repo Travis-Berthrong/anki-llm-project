@@ -8,7 +8,8 @@ const editCardModel = async (frontTemplate, backTemplate) => {
         const parsedModel = JSON.parse(cardModel);
         parsedModel.cardTemplates[0].Front = frontTemplate;
         parsedModel.cardTemplates[0].Back = backTemplate;
-        await fs.promises.writeFile(`${appRoot}/src/config/cardModel.json`, data=JSON.stringify(parsedModel));
+        const data = JSON.stringify(parsedModel);
+        await fs.promises.writeFile(`${appRoot}/src/config/cardModel.json`, data);
         logger.info('Card model updated');
         return true;
     } catch (error) {
@@ -23,7 +24,7 @@ const editSystemPrompt = async (newPrompt) => {
             newPrompt = '### System:\n' + newPrompt;
         }
         logger.info(`Updating system prompt to: ${newPrompt}`);
-        await fs.promises.writeFile(`${appRoot}/src/config/systemPrompt.txt`, data=newPrompt);
+        await fs.promises.writeFile(`${appRoot}/src/config/systemPrompt.txt`, newPrompt);
         logger.info('System prompt updated');
         return true;
     } catch (error) {
