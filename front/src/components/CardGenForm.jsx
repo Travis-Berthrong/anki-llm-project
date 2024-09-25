@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "./ui/input";
 import { Card } from "@/components/ui/card"
 import { useState } from "react";
+import PropTypes from 'prop-types';
 
 export default function CardGenForm({ decknames, submitHandler }) {
     const levelOptions = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'];
@@ -56,3 +57,8 @@ export default function CardGenForm({ decknames, submitHandler }) {
         </div>
     )
 }
+
+CardGenForm.propTypes = {
+    decknames: PropTypes.arrayOf(PropTypes.string).isRequired,
+    submitHandler: PropTypes.func.isRequired,
+};

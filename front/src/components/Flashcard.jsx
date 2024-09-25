@@ -1,6 +1,8 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Save, Trash2 } from 'lucide-react';
+import PropTypes from 'prop-types';
+
 
 export default function Flashcard({cardJson, saveHandler, discardHandler}) {
     return (
@@ -42,4 +44,10 @@ export default function Flashcard({cardJson, saveHandler, discardHandler}) {
             </Tabs>
         </div>
     )
+}
+
+Flashcard.propTypes = {
+    cardJson: PropTypes.object.isRequired,
+    saveHandler: PropTypes.func.isRequired,
+    discardHandler: PropTypes.func.isRequired,
 }

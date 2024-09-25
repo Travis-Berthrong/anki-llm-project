@@ -3,6 +3,7 @@ import { NavLink } from 'react-router-dom';
 import { Toaster } from "@/components/ui/toaster"
 import secureLocalStorage from 'react-secure-storage';
 import Logout from './Logout';
+import PropTypes from 'prop-types';
 
 const checkAccess = ({ allowedRoles }) => {
     const userRole = secureLocalStorage.getItem('user_role');
@@ -53,3 +54,7 @@ export default function Navbar({ children }) {
       </div>
     );
   }
+
+Navbar.propTypes = {
+    children: PropTypes.node.isRequired,
+}
