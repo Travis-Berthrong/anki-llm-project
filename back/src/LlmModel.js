@@ -59,8 +59,8 @@ class LlmModel {
             logger.info(`Prompt: ${prompt}`);
             const completion = await createCompletion(this.chatSession, prompt);
             logger.info(`Response: ${completion.choices[0].message.content}`);
-            // Extract JSON part from the response content
-            const jsonMatch = completion.choices[0].message.content.match(/{.*}/s);
+            const regex = /{.*}/s;
+            const jsonMatch = regex.exec(completion.choices[0].message.content);
             if (jsonMatch) {
                 logger.info(`JSON: ${jsonMatch[0]}`);
                 return jsonMatch[0];

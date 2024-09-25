@@ -6,6 +6,7 @@ import { RegistrationPage } from "./pages/RegistrationPage";
 import { HomePage } from "./pages/HomePage";
 import axios_instance from '../constants/axios';
 import { requests } from '../constants/requests';
+import PropTypes from 'prop-types';
 
 function ProtectedRoute({ roles = ['user', 'admin'], children }) {
   const [isLoading, setIsLoading] = useState(true);
@@ -39,10 +40,15 @@ function ProtectedRoute({ roles = ['user', 'admin'], children }) {
   return children;
 }
 
-function App() {
+ProtectedRoute.propTypes = {
+  roles: PropTypes.array,
+  children: PropTypes.node.isRequired,
+};
 
-    return (
-      <Routes>
+function App() {
+  
+  return (
+    <Routes>
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegistrationPage />} />
         <Route path="/" element={<ProtectedRoute roles={['user', 'admin']}><HomePage></HomePage></ProtectedRoute>} />
