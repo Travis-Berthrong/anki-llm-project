@@ -6,6 +6,7 @@ import { requests } from "../../constants/requests";
 import CardGenForm from "@/components/CardGenForm";
 import BackendError from "@/components/BackendError";
 import Flashcard from "@/components/Flashcard";
+import FlashcardSkeleton from "@/components/FlashcardSkeleton";
 import Navbar from "@/components/Navbar";
 
 export function HomePage() {
@@ -91,7 +92,7 @@ export function HomePage() {
                     <Flashcard cardJson={cardJson} saveHandler={saveCardHandler} discardHandler={discardHandler} />
                 )}
                 {pageLoading && <p>Loading...</p>}
-                {cardLoading && <p>Loading card...</p>}
+                {cardLoading && <FlashcardSkeleton />}
                 {requestError && <BackendError onRetry={() => location.reload()} />}
             </div>
         </Navbar>
