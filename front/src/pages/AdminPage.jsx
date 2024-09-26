@@ -38,7 +38,6 @@ export function AdminPage() {
         <Navbar>
             {loading ? <h1>Loading...</h1> : (
             <div>
-            <h1>Admin Page</h1>
             {cardModel.frontTemplate && <EditCardModelForm cardModel={cardModel} submitHandler={(frontTemplate, backTemplate) => console.log(frontTemplate, backTemplate)} />}
             <p>{systemPrompt}</p>
             </div>
