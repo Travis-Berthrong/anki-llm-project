@@ -4,6 +4,7 @@ import  secureLocalStorage  from  "react-secure-storage"
 import { LoginPage } from "./pages/LoginPage";
 import { RegistrationPage } from "./pages/RegistrationPage";
 import { HomePage } from "./pages/HomePage";
+import { AdminPage } from "./pages/AdminPage";
 import axios_instance from '../constants/axios';
 import { requests } from '../constants/requests';
 import PropTypes from 'prop-types';
@@ -52,6 +53,7 @@ function App() {
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegistrationPage />} />
         <Route path="/" element={<ProtectedRoute roles={['user', 'admin']}><HomePage></HomePage></ProtectedRoute>} />
+        <Route path="/admin/config" element={<ProtectedRoute roles={['admin']}><AdminPage></AdminPage></ProtectedRoute>} />
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>
   );

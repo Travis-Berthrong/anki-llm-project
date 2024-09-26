@@ -16,7 +16,7 @@ export default function Navbar({ children }) {
       { name: 'Home', to: '.', icon: Home},
       checkAccess({ allowedRoles: ['admin'] }) && {
         name: 'Config',
-        to: './config',
+        to: '/admin/config',
         icon: FileSliders,
       },
     ].filter(Boolean);
