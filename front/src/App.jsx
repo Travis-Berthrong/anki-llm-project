@@ -11,11 +11,13 @@ import PropTypes from 'prop-types';
 
 function ProtectedRoute({ roles = ['user', 'admin'], children }) {
   const [isLoading, setIsLoading] = useState(true);
+  const [hasSession, setHasSession] = useState(false);
   const [isAuthorized, setIsAuthorized] = useState(false);
 
   useEffect(() => {
     axios_instance.get(requests.session, { withCredentials: true })
       .then(response => {
+        setHasSession(true);
         const userRole = response.data.isAdmin ? 'admin' : 'user';
         secureLocalStorage.setItem('user_role', userRole);
         if (roles.includes(userRole)) {
@@ -34,8 +36,11 @@ function ProtectedRoute({ roles = ['user', 'admin'], children }) {
     return <div>Loading...</div>;
   }
 
-  if (!isAuthorized) {
+  if (!hasSession) {
     return <Navigate to="/login" />;
+  }
+  if (!isAuthorized) {
+    return <Navigate to="/" />;
   }
 
   return children;
