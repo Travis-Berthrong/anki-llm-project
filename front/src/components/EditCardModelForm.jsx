@@ -39,61 +39,61 @@ export default function EditCardModelForm({cardModel, submitHandler}) {
     });
 
     return (
-    <div className=" px-4 py-6 flex flex-col items-start">
-        <Form {...form}>
-        <h1 className="text-2xl font-semibold pb-2">Edit Card Model</h1>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="w-1/3 space-y-6">
-            <Tabs defaultValue="front" className="w-full max-w-md">
-                <TabsList className="flex justify-center mb-4 font-semibold shadow-md">
-                    <TabsTrigger value="front" className="flex-1 text-center bg-slate-100">Front</TabsTrigger>
-                    <TabsTrigger value="back" className="flex-1 text-center bg-slate-100">Back</TabsTrigger>
-                </TabsList>
-                <TabsContent value="front"> 
-                    <FormField
-                        control={form.control}
-                        name="frontTemplate"
-                        defaultValue={frontTemplate}
-                        render={({ field }) => (
-                        <FormItem>
-                            <FormLabel className="font-semibold pl-4">Front Template</FormLabel>
-                            <FormControl>
-                            <Textarea
-                                className="resize-none"
-                                {...field}
-                            />
-                            </FormControl>
-                            <FormDescription>
-                                The front of the card. Supports HTML. Card fields are denoted by double curly braces, e.g. {'{{field}}'}
-                            </FormDescription>
-                            <FormMessage />
-                        </FormItem>
-                        )}
-                    />
-                </TabsContent>
-                <TabsContent value="back">
+        <div className="h-full px-4 py-6 flex flex-col items-start w-full">
+        <Form {...form} className="w-full">
+            <h1 className="text-2xl font-semibold pb-2">Edit Card Model</h1>
+            <form onSubmit={form.handleSubmit(onSubmit)} className="h-full w-full flex flex-col">
+                <Tabs defaultValue="front" className="w-full max-w-md">
+                    <TabsList className="flex justify-center mb-4 font-semibold shadow-md">
+                        <TabsTrigger value="front" className="flex-1 text-center bg-slate-100">Front</TabsTrigger>
+                        <TabsTrigger value="back" className="flex-1 text-center bg-slate-100">Back</TabsTrigger>
+                    </TabsList>
+                    <TabsContent value="front">
+                        <FormField
+                            control={form.control}
+                            name="frontTemplate"
+                            defaultValue={frontTemplate}
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel className="font-semibold pl-4">Front Template</FormLabel>
+                                    <FormControl>
+                                        <Textarea
+                                            className="resize-none"
+                                            {...field}
+                                        />
+                                    </FormControl>
+                                    <FormDescription>
+                                        The front of the card. Supports HTML. Card fields are denoted by double curly braces, e.g. {'{{field}}'}
+                                    </FormDescription>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+                    </TabsContent>
+                    <TabsContent value="back">
                         <FormField
                             control={form.control}
                             name="backTemplate"
                             defaultValue={backTemplate}
                             render={({ field }) => (
-                            <FormItem>
-                                <FormLabel className="font-semibold pl-4">Back Template</FormLabel>
-                                <FormControl>
-                                <Textarea
-                                    className="resize-none"
-                                    {...field}
-                                />
-                                </FormControl>
-                                <FormDescription>
-                                    The back of the card. Supports HTML. Card fields are denoted by double curly braces, e.g. {'{{field}}'}
-                                </FormDescription>
-                                <FormMessage />
-                            </FormItem>
+                                <FormItem>
+                                    <FormLabel className="font-semibold pl-4">Back Template</FormLabel>
+                                    <FormControl className="h-full">
+                                        <Textarea
+                                            className="resize-none"
+                                            {...field}
+                                        />
+                                    </FormControl>
+                                    <FormDescription>
+                                        The back of the card. Supports HTML. Card fields are denoted by double curly braces, e.g. {'{{field}}'}
+                                    </FormDescription>
+                                    <FormMessage />
+                                </FormItem>
                             )}
                         />
                     </TabsContent>
                 </Tabs>
-                <Button type="submit" className="w-full max-w-md">Submit</Button>
+                <Button type="submit" className="w-full max-w-md mt-4">Submit</Button>
             </form>
         </Form>
     </div>

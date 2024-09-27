@@ -3,6 +3,7 @@ import axios_instance from "../../constants/axios";
 import Navbar from "@/components/Navbar";
 import { requests } from "../../constants/requests";
 import EditCardModelForm from "@/components/EditCardModelForm";
+import EditSystemPromptForm from "@/components/EditSystemPromptForm";
 
 export function AdminPage() {
     const [cardModel, setCardModel] = useState({});
@@ -37,9 +38,11 @@ export function AdminPage() {
     return (
         <Navbar>
             {loading ? <h1>Loading...</h1> : (
-            <div>
-            {cardModel.frontTemplate && <EditCardModelForm cardModel={cardModel} submitHandler={(frontTemplate, backTemplate) => console.log(frontTemplate, backTemplate)} />}
-            <p>{systemPrompt}</p>
+            <div className="h-screen">
+                <div className="flex flex-row h-full">
+                    {cardModel.frontTemplate && <EditCardModelForm cardModel={cardModel} submitHandler={(frontTemplate, backTemplate) => console.log(frontTemplate, backTemplate)} />}
+                    {systemPrompt && <EditSystemPromptForm systemPrompt={systemPrompt} submitHandler={(systemPrompt) => console.log(systemPrompt)} />}
+                </div>
             </div>
             )}
         </Navbar>
