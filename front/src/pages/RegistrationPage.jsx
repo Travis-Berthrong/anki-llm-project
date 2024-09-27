@@ -1,13 +1,23 @@
+"use client"
 
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 import { useState } from "react"
 import { Link, useNavigate } from "react-router-dom"
 import  secureLocalStorage  from  "react-secure-storage"
-
+import { zodResolver } from "@hookform/resolvers/zod"
+import { useForm } from "react-hook-form"
+import { z } from "zod"
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form"
 
 import axios_instance from "../../constants/axios"
 import { requests } from "../../constants/requests"
@@ -15,13 +25,26 @@ import { requests } from "../../constants/requests"
 export function RegistrationPage() {
 
   const navigate = useNavigate();
-  const [email, setEmail] = useState('');
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
   const [alert, setAlert] = useState({title: '', description: '', variant: 'default'});
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const FormSchema = z.object({
+    email: z.string().email({
+      message: 'Invalid email address',
+    }),
+    username: z.string().min(1, {
+      message: 'Username is required',
+    }),
+    password: z.string().regex(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()_+[\]{}|;:'",.<>?/\\-]).{8,}$/i, {
+      message: 'Password must contain at least 8 characters, one uppercase letter, one lowercase letter, one number and one special character',
+    }),
+  });
+
+  const form = useForm({
+    resolver: zodResolver(FormSchema),
+  });
+
+  const handleSubmit = async (data) => {
+    const { email, username, password } = data;
     try {
       const response = await axios_instance.post(requests.register, { email, username, password });
       setAlert({title: `${response.data.email} registered successfully!`, description: 'You will be redirected shortly', variant: 'success'});
@@ -67,19 +90,56 @@ export function RegistrationPage() {
           <CardTitle className="text-2xl font-bold">Sign Up</CardTitle>
           <CardDescription>Please enter your account information</CardDescription>
         </CardHeader>
-        <form onSubmit={handleSubmit}>
+        <Form {...form}>
+        <form onSubmit={form.handleSubmit(handleSubmit)}>
           <CardContent className="space-y-4">
           <div className="space-y-2">
-              <Label htmlFor="email">Email</Label>
-              <Input id="email" required onChange={(e) => setEmail(e.target.value)} />
+              <FormField
+                name="email"
+                control={form.control}
+                placeholder="Email"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel htmlFor="email">Email</FormLabel>
+                    <FormControl>
+                      <Input {...field}/>
+                    </FormControl>
+                    <FormMessage/>
+                  </FormItem>
+                )}
+              />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="username">Username</Label>
-              <Input id="username" required onChange={(e) => setUsername(e.target.value)} />
+              <FormField
+                name="username"
+                control={form.control}
+                placeholder="Username"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel htmlFor="username">Username</FormLabel>
+                    <FormControl>
+                      <Input {...field}/>
+                    </FormControl>
+                    <FormMessage/>
+                  </FormItem>
+                )}
+              />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="password">Password</Label>
-              <Input id="password" type="password" required onChange={(e) => setPassword(e.target.value)}/>
+              <FormField
+                name="password"
+                control={form.control}
+                placeholder="Password"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel htmlFor="password">Password</FormLabel>
+                    <FormControl>
+                      <Input type="password" {...field}/>
+                    </FormControl>
+                    <FormMessage/>
+                  </FormItem>
+                )}
+              />
             </div>
           </CardContent>
           <CardFooter className="flex flex-col items-center justify-center space-y-4">
@@ -94,6 +154,7 @@ export function RegistrationPage() {
             </Link>
           </CardFooter>
         </form>
+        </Form>
       </Card>
     </div>)
   );
