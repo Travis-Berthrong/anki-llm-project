@@ -45,21 +45,21 @@ SelectScrollUpButton.propTypes = {
   className: PropTypes.string,
 }
 
-SelectScrollDownButton.propTypes = {
-  className: PropTypes.string,
-}
 
 const SelectScrollDownButton = React.forwardRef(({ className, ...props }, ref) => (
   <SelectPrimitive.ScrollDownButton
-    ref={ref}
-    className={cn("flex cursor-default items-center justify-center py-1", className)}
-    {...props}>
+  ref={ref}
+  className={cn("flex cursor-default items-center justify-center py-1", className)}
+  {...props}>
     <ChevronDown className="h-4 w-4" />
   </SelectPrimitive.ScrollDownButton>
 ))
 SelectScrollDownButton.displayName =
-  SelectPrimitive.ScrollDownButton.displayName
+SelectPrimitive.ScrollDownButton.displayName
 
+SelectScrollDownButton.propTypes = {
+  className: PropTypes.string,
+}
 const SelectContent = React.forwardRef(({ className, children, position = "popper", ...props }, ref) => (
   <SelectPrimitive.Portal>
     <SelectPrimitive.Content

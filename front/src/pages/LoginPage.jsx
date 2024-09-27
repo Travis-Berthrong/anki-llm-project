@@ -1,13 +1,23 @@
+"use client"
 
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 import { useState } from "react"
 import { Link, useNavigate } from "react-router-dom"
 import  secureLocalStorage  from  "react-secure-storage"
-
+import { zodResolver } from "@hookform/resolvers/zod"
+import { useForm } from "react-hook-form"
+import { z } from "zod"
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form"
 
 import axios_instance from "../../constants/axios"
 import { requests } from "../../constants/requests"
@@ -15,12 +25,23 @@ import { requests } from "../../constants/requests"
 export function LoginPage() {
 
   const navigate = useNavigate();
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
   const [alert, setAlert] = useState({title: '', description: '', variant: 'default'});
 
-  const handleLogin = async (e) => {
-    e.preventDefault();
+  const FormSchema = z.object({
+    email: z.string().email({
+      message: 'Invalid email address',
+    }),
+    password: z.string().min(1, {
+      message: 'Password is required',
+    }),
+  });
+
+  const form = useForm({
+    resolver: zodResolver(FormSchema),
+  });
+
+  const handleLogin = async (data) => {
+    const { email, password } = data;
     try {
       const response = await axios_instance.post(requests.login, { email, password }, { withCredentials: true });
       console.log(response.data);
@@ -62,15 +83,41 @@ export function LoginPage() {
           <CardTitle className="text-2xl font-bold">Login</CardTitle>
           <CardDescription>Enter your credentials to access your account.</CardDescription>
         </CardHeader>
-        <form onSubmit={handleLogin}>
+        <Form {...form}>
+        <form onSubmit={form.handleSubmit(handleLogin)}>
           <CardContent className="space-y-4">
             <div className="space-y-2">
-              <Label htmlFor="email">Email</Label>
-              <Input id="email" required onChange={(e) => setEmail(e.target.value)} />
+              <FormField
+                control={form.control}
+                name="email"
+                placeholder="Email"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel htmlFor="email">Email</FormLabel>
+                    <FormControl>
+                      <Input {...field}/>
+                    </FormControl>
+                    <FormMessage/>
+                  </FormItem>
+
+                )}
+              />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="password">Password</Label>
-              <Input id="password" type="password" required onChange={(e) => setPassword(e.target.value)}/>
+              <FormField
+                control={form.control}
+                name="password"
+                placeholder="Password"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel htmlFor="password">Password</FormLabel>
+                    <FormControl>
+                      <Input type="password" {...field}/>
+                    </FormControl>
+                    <FormMessage/>
+                  </FormItem>
+                )}
+              />
             </div>
           </CardContent>
           <CardFooter className="flex flex-col items-center justify-center space-y-4">
@@ -85,6 +132,7 @@ export function LoginPage() {
             </Link>
           </CardFooter>
         </form>
+        </Form>
       </Card>
     </div>)
   );
