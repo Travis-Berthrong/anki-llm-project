@@ -7,16 +7,15 @@ import PropTypes from 'prop-types';
 
 const checkAccess = ({ allowedRoles }) => {
     const userRole = secureLocalStorage.getItem('user_role');
-    console.log(userRole);
     return allowedRoles.includes(userRole);
 };
 
 export default function Navbar({ children }) {
     const navigation = [
-      { name: 'Home', to: '.', icon: Home},
+      { name: 'Home', to: '/', icon: Home},
       checkAccess({ allowedRoles: ['admin'] }) && {
         name: 'Config',
-        to: './config',
+        to: '/admin/config',
         icon: FileSliders,
       },
     ].filter(Boolean);
