@@ -15,6 +15,7 @@ import {
   FormMessage,
 } from "@/components/ui/form"
 import { Textarea } from './ui/textarea';
+import { useEffect } from 'react';
 
 export default function EditSystemPromptForm({systemPrompt, submitHandler}) {
 
@@ -33,6 +34,12 @@ export default function EditSystemPromptForm({systemPrompt, submitHandler}) {
     const form = useForm({
         resolver: zodResolver(FormSchema),
     });
+
+    useEffect(() => {
+        form.reset({
+            systemPrompt,
+        });
+    }, [systemPrompt, form]);
 
     return (
     <div className=" px-4 py-6 flex flex-col items-start w-full h-full">

@@ -16,15 +16,17 @@ import {
 } from "@/components/ui/form"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Textarea } from "@/components/ui/textarea"
+import { useEffect } from 'react';
 
 export default function EditCardModelForm({cardModel, submitHandler}) {
     const frontTemplate = cardModel.frontTemplate;
     const backTemplate = cardModel.backTemplate;
 
-    const onSubmit = (data) => {
+    
+    const onSubmit = async (data) => {
         submitHandler(data.frontTemplate, data.backTemplate);
     };
-
+    
     const FormSchema = z.object({
         frontTemplate: z.string().min(10, {
             message: 'Front template must be at least 10 characters long',
@@ -33,11 +35,18 @@ export default function EditCardModelForm({cardModel, submitHandler}) {
             message: 'Back template must be at least 10 characters long',
         }),
     });
-
+    
     const form = useForm({
         resolver: zodResolver(FormSchema),
     });
-
+    
+    useEffect(() => {
+        form.reset({
+            frontTemplate,
+            backTemplate,
+        });
+    }, [frontTemplate, backTemplate, form]);
+    
     return (
         <div className="h-full px-4 py-6 flex flex-col items-start w-full">
         <Form {...form} className="w-full">
@@ -93,7 +102,7 @@ export default function EditCardModelForm({cardModel, submitHandler}) {
                         />
                     </TabsContent>
                 </Tabs>
-                <Button type="submit" className="w-full max-w-md mt-4">Submit</Button>
+                <Button type="submit" className="w-full max-w-md mt-4">Save</Button>
             </form>
         </Form>
     </div>
