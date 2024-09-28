@@ -1,4 +1,4 @@
-import { Home, FileSliders } from 'lucide-react';
+import { Home, FileSliders, UserRoundPlus } from 'lucide-react';
 import { NavLink } from 'react-router-dom';
 import { Toaster } from "@/components/ui/toaster"
 import secureLocalStorage from 'react-secure-storage';
@@ -17,6 +17,11 @@ export default function Navbar({ children }) {
         name: 'Config',
         to: '/admin/config',
         icon: FileSliders,
+      },
+      checkAccess({ allowedRoles: ['admin'] }) && {
+        name: 'Register Admin',
+        to: '/admin/register',
+        icon: UserRoundPlus,
       },
     ].filter(Boolean);
   
