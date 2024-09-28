@@ -23,12 +23,13 @@ Currently this project makes use of the [Meta Llama 3 8B Instruct](https://huggi
 
 ### How to Run
 1. Clone this repository
-2. Install dependencies for front end and back end by running `npm install` in the `/front` and `/back` directories
+2. Install dependencies for front end and back end by running `npm install` in the [/front](./front/) and [/back](./back/) directories
 3. Install the [Anki Desktop](https://apps.ankiweb.net/) application and the [AnkiConnect](https://foosoft.net/projects/anki-connect/) plugin
 4. Define all environment variables for the front end and back end by creating a `.env` file in the [/front](./front/) and [/back](./back/) directories respectively. Each `.env` file should contain the variables indicated in the `.env.template` file in the corresponding directory.
-5. Start the back end server by running `npm start` in the `/back` directory
-6. Start the front end server by running `npm start` in the `/front` directory
-7. Open the front end in your browser to create your account and generate flashcards
+5. Start the Anki application and ensure that the AnkiConnect plugin is installed and running
+6. Start the back end server by running `npm start` in the [/back](./back/) directory
+7. Start the front end server by running `npm start` in the [/front](./front/) directory
+8. Open the front end in your browser to create your account and generate flashcards
 
 
 
