@@ -59,6 +59,7 @@ function App() {
         <Route path="/register" element={<RegistrationPage />} />
         <Route path="/" element={<ProtectedRoute roles={['user', 'admin']}><HomePage></HomePage></ProtectedRoute>} />
         <Route path="/admin/config" element={<ProtectedRoute roles={['admin']}><AdminPage></AdminPage></ProtectedRoute>} />
+        <Route path="/admin/register" element={<ProtectedRoute roles={['admin']}><RegistrationPage admin={true}/></ProtectedRoute>} />
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>
   );

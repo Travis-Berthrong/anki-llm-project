@@ -18,11 +18,12 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form"
+import PropTypes from 'prop-types'
 
 import axios_instance from "../../constants/axios"
 import { requests } from "../../constants/requests"
 
-export function RegistrationPage() {
+export function RegistrationPage({admin=false}) {
 
   const navigate = useNavigate();
   const [alert, setAlert] = useState({title: '', description: '', variant: 'default'});
@@ -46,12 +47,21 @@ export function RegistrationPage() {
   const handleSubmit = async (data) => {
     const { email, username, password } = data;
     try {
-      const response = await axios_instance.post(requests.register, { email, username, password });
+      const response = await axios_instance.post(requests.register, { email, username, password, createAdmin: admin });
+      if (admin) {
+        setAlert({title: `Admin account created!`, description: `${response.data.username} has been registered as an admin`, variant: 'success'});
+        setTimeout(() => {
+          navigate('/');
+        }, 1500);
+      }
+      else {
       setAlert({title: `${response.data.email} registered successfully!`, description: 'You will be redirected shortly', variant: 'success'});
       const login_response = await axios_instance.post(requests.login, { email, password });
         secureLocalStorage.setItem('user_role', login_response.data.isAdmin ? 'admin' : 'user');
-        navigate('/');
-      
+        setTimeout(() => {
+          navigate('/');
+        }, 1500);
+      }
     } catch (error) {
         if (error?.response?.status === 400) {
             setAlert({title: error.response.data.message, description: 'Please try again.', variant: 'destructive'});
@@ -149,13 +159,18 @@ export function RegistrationPage() {
             >
               Sign Up
             </Button>
+            {!admin && (
             <Link to="/login" className="block text-center mt-4 text-blue-500 hover:text-blue-800 w-full">
               Already have an account? Sign in here.
-            </Link>
+            </Link>)}
           </CardFooter>
         </form>
         </Form>
       </Card>
     </div>)
   );
+}
+
+RegistrationPage.propTypes = {
+  admin: PropTypes.bool
 }
