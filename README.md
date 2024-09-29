@@ -13,6 +13,7 @@ By Travis Berthrong
       * [How to Run](#how-to-run)
    * [A - Innovation](docs/A-Innovation.md)
    * [B - Conception and Organization](docs/B-Conception%20and%20Organization.md)
+   * [C, D, & F - Recorded Demonstration](docs/Semester4ProjectDemo%20-%20Travis%20Berthrong.mp4)
 
 ### What is Anki?
 [Anki](https://apps.ankiweb.net/) is a free and open-source flashcard program that utilizes spaced repetition. The program is designed to help users memorize information through the use of flashcards. Users can create their own flashcards or download pre-made decks from the AnkiWeb website. This project uses the [AnkiConnect](https://foosoft.net/projects/anki-connect/) plugin to interact with the user's Anki application.
@@ -29,7 +30,7 @@ Currently this project makes use of the [Meta Llama 3 8B Instruct](https://huggi
 5. Start the Anki application and ensure that the AnkiConnect plugin is installed and running
 6. Start the back end server by running `npm start` in the [/back](./back/) directory
 7. Start the front end server by running `npm start` in the [/front](./front/) directory
-8. Open the front end in your browser to create your account and generate flashcards
+8. Open the front end in your browser to create your account and generate flashcards or use the [API endpoints directly](https://www.postman.com/speeding-shuttle-145414/workspace/public/collection/32573845-e515023b-1e70-4c0d-abe4-7852f063875a?action=share&creator=32573845&active-environment=32573845-d07a5a89-111a-4841-8bb3-8a66d5705e48)
 
 
 
